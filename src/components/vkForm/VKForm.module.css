@@ -53,3 +53,8 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.error {
+    background: rgb(206, 95, 95);
+    color: black;
+}
