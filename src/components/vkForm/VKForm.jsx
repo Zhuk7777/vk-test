@@ -6,6 +6,7 @@ const VKForm = () => {
     const [reservation, setReservation] = useState({
         tower: '',
         floor: '',
+        meeting_room: '',
         date: '',
         beg_time: '',
         end_time: '',
@@ -14,7 +15,7 @@ const VKForm = () => {
     const [error, setError] = useState('')
 
     const getError = () => {
-        if(reservation.tower === '' || reservation.floor === '' || reservation.date === '' || reservation.beg_time === '' || reservation.end_time === '')
+        if(reservation.tower === '' || reservation.floor === '' || reservation.meeting_room === '' || reservation.date === '' || reservation.beg_time === '' || reservation.end_time === '')
             return 'Заполните поля'
         if(reservation.beg_time > reservation.end_time)
             return 'Время указано некорректно'
@@ -36,6 +37,7 @@ const VKForm = () => {
         const emptyReservation = {
             tower: '',
             floor: '',
+            meeting_room: '',
             date: '',
             beg_time: '',
             end_time: '',
@@ -64,7 +66,16 @@ const VKForm = () => {
             }
         </select>
 
-        <input className={classes.input} type="date" value={reservation.date} onChange={event => setReservation({...reservation, date: event.target.value})}/>
+        <select className={classes.select} value={reservation.meeting_room} onChange={event => setReservation({...reservation, meeting_room: event.target.value})}>
+            <option disabled value=''>Номер переговорной</option>
+            {
+                Array(10).fill().map((_, idx) => 1 + idx).map((room, index) =>
+                    <option key={index} value={room}>{room}</option>
+                )
+            }
+        </select>
+
+        <input className={classes.input} type="date" min={new Date().toISOString().split('T')[0]} value={reservation.date} onChange={event => setReservation({...reservation, date: event.target.value})}/>
         <div className={classes.time}>
             <span>Время начала переговоров</span>
             <input className={classes.input} type="time" value={reservation.beg_time} onChange={event => setReservation({...reservation, beg_time: event.target.value})}/>
